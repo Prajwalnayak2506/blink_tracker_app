@@ -5,7 +5,7 @@ import subprocess #this module to to let this file run another file in the backg
 class BlinkApp(QWidget):
     def __init__(self):
         super().__init__() 
-
+        result = subprocess.Popen(["python", "eye-tracker-share\eye_blink_counter.py"],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,bufsize=1)#bufsize=1 meaning one line once
         self.setWindowTitle("Blink Counter")
         self.setGeometry(100, 100, 300, 100)# x, y, width, height
         self.label = QLabel("Blink Count: 0", self) 
@@ -16,7 +16,6 @@ class BlinkApp(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)  
-    result = subprocess.Popen(["python", "eye-tracker-share\eye_blink_counter.py"],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,bufsize=1)#bufsize=1 meaning one line once
     window = BlinkApp()
     window.show()                
     sys.exit(app.exec_())
