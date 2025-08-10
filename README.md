@@ -20,9 +20,9 @@ This project is a Full Stack Developer challenge to build a cross-platform (MacO
 
 1. **Start the local backend stub server** for login authentication:  python backend_stub.py
 2. **Run the main PyQt application**: python main.py
-3. **Login credentials for testing**:
-Email: test1@example.com
-Password: 1111
+3. **Login credentials for testing**:<br>
+Email: test1@example.com<br>
+Password: 1111<br>
 
 
 Upon successful login, the blink tracking and system stats window will open.
@@ -49,13 +49,13 @@ Upon successful login, the blink tracking and system stats window will open.
 ## Architecture Diagram
 
 Below is a high-level architecture diagram showing how the components interact:
-+---------------------+ +--------------------+ +---------------------+
-| | | | | |
-| Cross-Platform | | Cloud Backend & | | WaW Web Platform |
-| Desktop Application | <---> | Database (AWS) | <---> | Read-Only Dashboard |
-| (PyQt5, Blink Tracker| | (API, S3, RDS) | | (Web Framework) |
-| Subprocess, UI) | | | | |
-+---------------------+ +--------------------+ +---------------------+
++---------------------+ +--------------------+ +---------------------+<br>
+| | | | | |<br>
+| Cross-Platform | | Cloud Backend & | | WaW Web Platform |<br>
+| Desktop Application | <---> | Database (AWS) | <---> | Read-Only Dashboard |<br>
+| (PyQt5, Blink Tracker| | (API, S3, RDS) | | (Web Framework) |<br>
+| Subprocess, UI) | | | | |<br>
++---------------------+ +--------------------+ +---------------------+<br>
 
 User authenticates on the desktop app.
 
