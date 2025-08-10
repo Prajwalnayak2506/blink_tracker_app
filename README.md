@@ -46,27 +46,6 @@ Upon successful login, the blink tracking and system stats window will open.
 
 ---
 
-## Architecture Diagram
-
-Below is a high-level architecture diagram showing how the components interact:
-+---------------------+ +--------------------+ +---------------------+<br>
-| | | | | |<br>
-| Cross-Platform | | Cloud Backend & | | WaW Web Platform |<br>
-| Desktop Application | <---> | Database (AWS) | <---> | Read-Only Dashboard |<br>
-| (PyQt5, Blink Tracker| | (API, S3, RDS) | | (Web Framework) |<br>
-| Subprocess, UI) | | | | |<br>
-+---------------------+ +--------------------+ +---------------------+<br>
-
-User authenticates on the desktop app.
-
-Blink data is collected and sent securely to the backend.
-
-Backend stores user and blink data.
-
-Web platform fetches data via secure API to display to users.
-
----
-
 ## Next Steps
 
 - Build and deploy the cloud backend using AWS services (S3, RDS).
