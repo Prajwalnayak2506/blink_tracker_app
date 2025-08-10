@@ -10,7 +10,8 @@ class BlinkApp(QWidget):
     def __init__(self):
         super().__init__() 
         self.setGeometry(100, 100, 300, 200)
-        self.process = subprocess.Popen([sys.executable, "-u", "eye-tracker-share\\eye_blink_counter.py"],    stdout=subprocess.PIPE,    stderr=subprocess.PIPE,    text=True,    bufsize=1,    env=dict(os.environ, PYTHONUNBUFFERED="1"))#bufsize=1 meaning one line once and self.process allows other methods in yuor clas to access the running process
+        script_path = os.path.join("eye-tracker-share", "eye_blink_counter.py")
+        self.process = subprocess.Popen([sys.executable, "-u", script_path],    stdout=subprocess.PIPE,    stderr=subprocess.PIPE,    text=True,    bufsize=1,    env=dict(os.environ, PYTHONUNBUFFERED="1"))#bufsize=1 meaning one line once and self.process allows other methods in yuor clas to access the running process
         self.setWindowTitle("Blink Counter")
         # self.setGeometry(100, 100, 300, 100)# x, y, width, height
         self.label = QLabel("Blink Count: 0", self) 
