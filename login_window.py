@@ -48,7 +48,7 @@ class LoginWindow(QWidget):
                 # Login OK
                 QMessageBox.information(self, "Success", "You have logged in successfully!")
                 if self.on_login_success:  # If a success function is set
-                    self.on_login_success()
+                    self.on_login_success(email)
                 self.close()  # Close login window
             else:
                 # Login Failed -> show server's error message
