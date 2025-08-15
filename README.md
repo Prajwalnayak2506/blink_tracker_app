@@ -65,31 +65,31 @@ The app consists of:
 - A Web dashboard (to be built) for users to view their blink stats
 
 Data Flow:
-[User] -> [Desktop App] -> [Backend] -> [Database]
-|
-[Web Dashboard (fetches data)]
+[User] -> [Desktop App] -> [Backend] -> [Database]<br>
+|<br>
+[Web Dashboard (fetches data)]<br>
 
 Or visually:
 
-+-------------------------+
-| PyQt Desktop App |
-+-------------------------+
-|
-Login, Blink Data
-v
-+-------------------------+
-| Backend Server (API) |
-+-------------------------+
-|
-Stores, Retrieves Data
-v
-+-------------------------+
-| Database (SQLite) |
-+-------------------------+
-       ^
-       |
-+------------------------------+
-| Web Dashboard (Future) |
-+------------------------------+
++-------------------------+<br>
+| PyQt Desktop App |<br>
++-------------------------+<br>
+|<br>
+Login, Blink Data<br>
+v<br>
++-------------------------+<br>
+| Backend Server (API) |<br>
++-------------------------+<br>
+|<br>
+Stores, Retrieves Data<br>
+v<br>
++-------------------------+<br>
+| Database (SQLite) |<br>
++-------------------------+<br>
+       ^<br>
+       |<br>
++------------------------------+<br>
+| Web Dashboard (Future) |<br>
++------------------------------+<br>
 
 This simple diagram shows how different components interact to provide a full solution.
