@@ -89,7 +89,7 @@ class BlinkApp(QWidget):
             for i in cache_list:
                 try:
                     response = requests.post(
-                        "http://127.0.0.1:5001/api/blink",
+                        "http://127.0.0.1:5000/api/blink",
                         json={
                             "user_id": i["user_id"],
                             "blink_count": i["blink_count"]
@@ -118,7 +118,7 @@ class BlinkApp(QWidget):
         """Send blink data to backend API endpoint."""
         try:
             response = requests.post(
-                "http://127.0.0.1:5001/api/blink",
+                "https://blinktrackerapp-production.up.railway.app/api/blink",
                 json={
                     "user_id": user_id,
                     "blink_count": blink_count
