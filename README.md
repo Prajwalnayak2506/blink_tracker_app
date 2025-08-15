@@ -56,6 +56,40 @@ Upon successful login, the blink tracking and system stats window will open.
 
 ---
 
+## Architecture Diagram
 
+The app consists of:
+- A PyQt desktop client for login and blink tracking
+- A Flask backend for user authentication and blink data
+- A database (currently SQLite, future AWS RDS)
+- A Web dashboard (to be built) for users to view their blink stats
 
+Data Flow:
+[User] -> [Desktop App] -> [Backend] -> [Database]
+|
+[Web Dashboard (fetches data)]
 
+Or visually:
+
++-------------------------+
+| PyQt Desktop App |
++-------------------------+
+|
+Login, Blink Data
+v
++-------------------------+
+| Backend Server (API) |
++-------------------------+
+|
+Stores, Retrieves Data
+v
++-------------------------+
+| Database (SQLite) |
++-------------------------+
+       ^
+       |
++------------------------------+
+| Web Dashboard (Future) |
++------------------------------+
+
+This simple diagram shows how different components interact to provide a full solution.

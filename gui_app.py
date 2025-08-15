@@ -6,13 +6,27 @@ import json
 import os
 import psutil
 import requests
+from datetime import datetime
 
+CACHE_FILE = "unsent_blinks.json"
+# test_data = [
+#     {"user_id": "me@example.com", "blink_count": 1, "timestamp": "2025-08-14T10:00:00"},
+#     {"user_id": "me@example.com", "blink_count": 2, "timestamp": "2025-08-14T10:00:05"}
+# ]
 
+# # save it
+# with open(CACHE_FILE, "w") as f:
+#     json.dump(test_data, f)
+
+# # read it back
+# with open(CACHE_FILE, "r") as f:
+#     loaded_data = json.load(f)
+# print(loaded_data)
+# print(loaded_data)
 class BlinkApp(QWidget):
     def __init__(self, user_email):
         super().__init__()
         self.logged_in_user_email = user_email  # Store the email passed at login
-
         self.setGeometry(100, 100, 300, 200)
         self.setWindowTitle("Blink Counter")
 
@@ -52,8 +66,55 @@ class BlinkApp(QWidget):
         layout.addWidget(self.mem_label)
         layout.addWidget(self.battery_label)
         self.setLayout(layout)
+    def add_to_cache(self,user_id,blink_data):
+        cache_list = self.load_cached_data()
+        data_dict = {"user_id": user_id, "blink_count": blink_data, "timestamp": datetime.utcnow().isoformat()}
+        cache_list.append(data_dict)
+        self.save_data(cache_list)
+        print("[CACHED] Saved blink locally...")
+    def load_cached_data(self):
+        if os.path.exists(CACHE_FILE):
+            with open(CACHE_FILE, "r") as f: 
+                cache_list = json.load(f)
+                return cache_list
+        else:
+            return []
+    def save_data(self,cache_list):
+        with open(CACHE_FILE,"w") as f:
+            json.dump(cache_list,f,indent=2)       
+    def try_sending_cache(self):
+        cache_list = self.load_cached_data()
+        still_unsent = []
+        if cache_list:
+            for i in cache_list:
+                try:
+                    response = requests.post(
+                        "http://127.0.0.1:5001/api/blink",
+                        json={
+                            "user_id": i["user_id"],
+                            "blink_count": i["blink_count"]
+                        },
+                        timeout=5
+                    )
+                    if response.status_code == 200:
+                        print(f"[SYNCED] Sent blink_count={i['blink_count']} for user={i['user_id']}")
+                    else:
+                        still_unsent.append(i)
+                except requests.RequestException as e:
+                    print(f"[OFFLINE] Could not send to backend: {e}")
+                    still_unsent.append(i)  # keep if send failed during exception
+
+            # ✅ Do this AFTER the loop
+            if still_unsent:
+                self.save_data(still_unsent)
+            else:
+                if os.path.exists(CACHE_FILE):
+                    os.remove(CACHE_FILE)
+        else:
+            return
 
     def send_blink_data(self, user_id, blink_count):
+        self.try_sending_cache()
         """Send blink data to backend API endpoint."""
         try:
             response = requests.post(
@@ -68,9 +129,11 @@ class BlinkApp(QWidget):
                 print(f"[SYNCED] Sent blink_count={blink_count} for user={user_id}")
             else:
                 print(f"[ERROR] Server refused blink data: {response.text}")
+                self.add_to_cache(user_id, blink_count)
         except requests.RequestException as e:
             print(f"[OFFLINE] Could not send to backend: {e}")
-
+            self.add_to_cache(user_id, blink_count)
+    
     def update_system_stats(self):
         """Update CPU, memory, and battery labels."""
         cpu = psutil.cpu_percent()
