@@ -78,7 +78,7 @@ def blink():
 from flask import Flask
 
 app = Flask(__name__)
-
+print("Flask app is loading...")
 @app.route("/")
 def home():
     return "Backend live."
