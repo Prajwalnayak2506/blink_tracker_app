@@ -38,7 +38,7 @@ class LoginWindow(QWidget):
         # Step 3: Try to contact the backend server
         try:
             response = requests.post(
-                "http://127.0.0.1:5000/login",    # Our local backend server URL
+                "https://blinktrackerapp-production.up.railway.app/api/users",    # Our local backend server URL
                 json={"email": email, "password": password},  # Send data as JSON
                 timeout=5  # If server takes >5 seconds, give up
             )
