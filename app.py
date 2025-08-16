@@ -78,15 +78,7 @@ def blink():
 from flask import Flask
 
 app = Flask(__name__)
-print("Flask app is loading...")
+
 @app.route("/")
 def home():
     return "Backend live."
-
-@app.route("/users", methods=["POST"])
-def login():
-    return "POST /users called"
-
-@app.route("/api/blink", methods=["POST"])
-def blink():
-    return "POST /api/blink called"
