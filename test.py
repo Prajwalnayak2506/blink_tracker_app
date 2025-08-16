@@ -1,38 +1,22 @@
-import sqlite3
-import random
-from datetime import datetime, timedelta
+import requests
 
-# Connect (or create) SQLite database
-conn = sqlite3.connect('blinks.db')
-cursor = conn.cursor()
+# 1. Test login endpoint
+login_url = "https://blinktrackerapp-production.up.railway.app/users"  # Use /users if that's your route
+login_payload = {
+    "email": "test1@example.com",
+    "password": "1111"
+}
+login_response = requests.post(login_url, json=login_payload)
+print("Login Status:", login_response.status_code)
+print("Login Response:", login_response.text)
 
-# Create table if it doesn't exist
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS blinks (
-        user_id TEXT,
-        blink_count INTEGER,
-        timestamp TEXT
-    )
-''')
-
-# Clear existing data (optional)
-cursor.execute('DELETE FROM blinks')
-
-# Generate random data for 3 users over the last 5 days
-users = ['test1@example.com', 'test2@example.com', 'test3@example.com']
-base_time = datetime.utcnow()
-
-for user in users:
-    for i in range(10):  # 10 records each
-        blink_count = random.randint(1, 10)
-        # Random timestamp within last 5 days
-        random_time = base_time - timedelta(days=random.randint(0, 5), hours=random.randint(0,23), minutes=random.randint(0,59))
-        timestamp = random_time.isoformat()
-        cursor.execute(
-            "INSERT INTO blinks (user_id, blink_count, timestamp) VALUES (?, ?, ?)",
-            (user, blink_count, timestamp)
-        )
-
-conn.commit()
-conn.close()
-print("Database 'blinks.db' created and filled with sample data.")
+# 2. Test blink data endpoint
+blink_url = "https://blinktrackerapp-production.up.railway.app/api/blink"
+blink_payload = {
+    "user_id": "test1@example.com",
+    "blink_count": 5,
+    "timestamp": "2025-08-16T20:25:00"
+}
+blink_response = requests.post(blink_url, json=blink_payload)
+print("Blink Status:", blink_response.status_code)
+print("Blink Response:", blink_response.text)

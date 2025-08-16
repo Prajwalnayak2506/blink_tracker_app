@@ -63,5 +63,10 @@ def blink():
     return jsonify({"success": True})
 
 if __name__ == "__main__":
-    create_tables()
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 8080)))
+    try:
+        print("Attempting to create tables...")
+        create_tables()
+        print("Tables created successfully!")
+    except Exception as e:
+        print(f"[ERROR] Could not initialize database: {e}")
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
