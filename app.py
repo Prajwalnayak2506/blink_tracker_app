@@ -1,3 +1,4 @@
+'''
 from flask import Flask, request, jsonify
 import psycopg2
 import os
@@ -26,17 +27,19 @@ def create_tables():
     conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor()
     cur.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            email TEXT UNIQUE
-        );
-        CREATE TABLE IF NOT EXISTS blinks (
-            id SERIAL PRIMARY KEY,
-            user_id INTEGER REFERENCES users(id),
-            blink_count INTEGER,
-            timestamp TIMESTAMPTZ
-        );
-    ''')
+#        CREATE TABLE IF NOT EXISTS users (
+#           id SERIAL PRIMARY KEY,
+#            email TEXT UNIQUE
+#        );
+        # CREATE TABLE IF NOT EXISTS blinks (
+        #     id SERIAL PRIMARY KEY,
+        #     user_id INTEGER REFERENCES users(id),
+        #     blink_count INTEGER,
+        #     timestamp TIMESTAMPTZ
+        # );
+        # 
+        # 
+''')
     conn.commit()
     cur.close()
     conn.close()
@@ -70,3 +73,20 @@ def blink():
 #     except Exception as e:
 #         print(f"[ERROR] Could not initialize database: {e}")
 #     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+'''
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Backend live."
+
+@app.route("/users", methods=["POST"])
+def login():
+    return "POST /users called"
+
+@app.route("/api/blink", methods=["POST"])
+def blink():
+    return "POST /api/blink called"
