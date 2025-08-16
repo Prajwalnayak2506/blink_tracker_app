@@ -5,6 +5,22 @@ import os
 app = Flask(__name__)
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+VALID_USERS = {
+    "test1@example.com": "1111",
+    "test2@example.com": "2222",
+    "test3@example.com": "3333",
+    "test4@example.com": "4444"
+}
+@app.route("/users", methods=["POST"])
+def login():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
+
+    if email in VALID_USERS and VALID_USERS[email] == password:
+        return jsonify({"success": True, "message": "Login successful"})
+    else:
+        return jsonify({"success": False, "message": "Invalid email or password"}), 401
 
 def create_tables():
     conn = psycopg2.connect(DATABASE_URL)
@@ -48,4 +64,4 @@ def blink():
 
 if __name__ == "__main__":
     create_tables()
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 8080)))

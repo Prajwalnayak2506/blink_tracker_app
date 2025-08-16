@@ -1,1 +1,1 @@
-web: python backend_blink_api.py
+web: python app.py
